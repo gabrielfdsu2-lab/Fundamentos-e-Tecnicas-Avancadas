@@ -1,0 +1,37 @@
+class Item:
+    def __init__(self, nome, preco):
+        self.nome = nome
+        self.__preco = preco  # Encapsulamento (técnica avançada)
+
+    def exibir_detalhes(self):
+        return f"Item: {self.nome} | Preço: R${self.__preco:.2f}"
+
+class Produto(Item):  # Herança
+    def __init__(self, nome, preco, categoria):
+        super().__init__(nome, preco)
+        self.categoria = categoria
+
+    def exibir_detalhes(self):
+        return f"{super().exibir_detalhes()} | Categoria: {self.categoria}"
+
+def salvar_no_arquivo(lista_produtos):
+    try:
+        with open("dados_projeto.txt", "w") as arquivo:
+            for p in lista_produtos:
+                arquivo.write(p.exibir_detalhes() + "\n")
+        print("Dados salvos com sucesso!")
+    except Exception as e:
+        print(f"Erro ao salvar: {e}")
+
+# Execução Principal
+if __name__ == "__main__":
+    # List Comprehension (técnica avançada)
+    nomes = ["Notebook", "Mouse", "Teclado"]
+    precos = [3500, 150, 200]
+    
+    produtos = [Produto(n, p, "Eletrônicos") for n, p in zip(nomes, precos)]
+    
+    for prod in produtos:
+        print(prod.exibir_detalhes())
+    
+    salvar_no_arquivo(produtos)
